@@ -125,6 +125,12 @@ services:
     image: edxops/ecommerce:latest
     ports:
       - "18130:18130"
+    networks:
+      default:
+        aliases:
+          - payments.globalacademy-stage.hms.harvard.edu
+          - stage-payments.harvardxplus.harvard.edu
+          - payments.stage.mitxpro.mit.edu
 
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
@@ -150,6 +156,12 @@ services:
       # - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+    networks:
+      default:
+        aliases:
+          - globalacademy-stage.hms.harvard.edu
+          - stage-courses.harvardxplus.harvard.edu
+          - stage.mitxpro.mit.edu
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
