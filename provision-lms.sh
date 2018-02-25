@@ -13,6 +13,9 @@ for app in "${apps[@]}"; do
     docker-compose $DOCKER_COMPOSE_FILES up -d $app
 done
 
+docker-compose exec lms bash -c "mkdir -p ~/.pip && echo -e '[global]\nindex-url=https://pypi.douban.com/simple/' > ~/.pip/pip.conf"
+docker-compose exec lms bash -c "source /edx/app/edxapp/edxapp_env && npm config set registry https://registry.npm.taobao.org"
+## sed s/registry.npmjs.org/registry.npm.taobao.org /edx/app/edxapp/edx-platform/pavelib/prereqs.py
 docker-compose exec lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform && NO_PYTHON_UNINSTALL=1 paver install_prereqs'
 
 #Installing prereqs crashes the process
